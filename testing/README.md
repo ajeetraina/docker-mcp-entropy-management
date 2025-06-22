@@ -27,19 +27,19 @@ Now you can test the workflow with the curl command:
 curl -X POST "http://localhost:5678/webhook/build-business-os" \
 -H "Content-Type: application/json" \
 -d '{
-  "company_name": "Tech Startup Inc",
+  "company_name": "Your Company Name",
   "documents": [
     {
       "type": "mission_vision_values",
-      "content": "Mission: Build amazing software that helps businesses grow. Vision: Become the leading platform for business automation. Values: Innovation, Customer Success, Team Collaboration."
+      "content": "Your mission, vision, and values..."
     },
     {
-      "type": "brand_guidelines", 
-      "content": "Brand: Modern, professional, approachable. Colors: Blue (#2563eb), Gray (#64748b). Voice: Clear, helpful, expert but not condescending."
+      "type": "brand_guidelines",
+      "content": "Your brand guidelines..."
     },
     {
       "type": "resource_inventory",
-      "content": "Team: 5 engineers, 2 designers, 1 PM. Tech: React, Node.js, PostgreSQL, AWS. Tools: GitHub, Slack, Notion, Linear."
+      "content": "Your team and tech resources..."
     }
   ]
 }'
