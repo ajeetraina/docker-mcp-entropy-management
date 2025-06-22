@@ -76,3 +76,18 @@ curl -X POST "http://localhost:5678/webhook/build-business-os" \
 
 ![image](https://github.com/user-attachments/assets/3464a1bb-fbd6-4fef-8330-7575864cba7e)
 
+### Process Business Data Node
+
+- Click on the "Process Business Data" node
+- You'll see the processed output:
+
+![image](https://github.com/user-attachments/assets/67eb6cfb-7334-4cea-8466-0a0a56c7c6d8)
+
+
+### Response Node
+
+- Click on the "Response" node
+- Shows the final JSON response sent back to your curl command
+
+  ![image](https://github.com/user-attachments/assets/2791c735-e263-4b8b-8f22-127ea9447048)
+
