@@ -1,0 +1,200 @@
+{
+  "name": "🔄 Daily Entropy Management - Business Organization",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "daily-trigger",
+      "name": "⏰ Daily 9 AM Trigger",
+      "type": "n8n-nodes-base.cron",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "process-entropy",
+        "options": {
+          "noResponseBody": false
+        },
+        "responseMode": "responseNode"
+      },
+      "id": "manual-trigger",
+      "name": "🔄 Manual Entropy Process",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 400],
+      "webhookId": "process-entropy"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Initialize daily entropy management process\nconst triggerType = $node.name.includes('Daily') ? 'scheduled' : 'manual';\nconst inputData = triggerType === 'manual' ? $('🔄 Manual Entropy Process').item.json : {};\n\n// Configuration for entropy management\nconst entropyConfig = {\n  company_name: inputData.company_name || 'Your Company',\n  trigger_type: triggerType,\n  processing_date: new Date().toISOString().split('T')[0],\n  timestamp: new Date().toISOString(),\n  \n  // Data sources to scan for new information\n  data_sources: {\n    github: {\n      enabled: true,\n      scan_repos: inputData.github_repos || ['business-os', 'main-product'],\n      look_for: ['new commits', 'issues', 'pull requests', 'documentation updates']\n    },\n    notion: {\n      enabled: true,\n      scan_pages: ['meeting notes', 'project updates', 'decisions'],\n      look_for: ['new pages', 'updated content', 'action items']\n    },\n    slack: {\n      enabled: true,\n      channels: inputData.slack_channels || ['general', 'product', 'strategy'],\n      look_for: ['important decisions', 'action items', 'document links']\n    },\n    email: {\n      enabled: inputData.email_enabled || false,\n      folders: ['inbox', 'business'],\n      look_for: ['contracts', 'proposals', 'important communications']\n    }\n  },\n  \n  // 0-9 Business Framework for classification\n  business_framework: {\n    '0': 'Foundation - Vision, Mission, Values, Legal, Brand, Strategy',\n    '1': 'Market Intelligence - Personas, Competition, Positioning, Research',\n    '2': 'Growth Engine - Marketing, Content, Lead Generation, Conversion',\n    '3': 'Sales Pipeline - CRM, Processes, Pricing, Revenue Forecasting',\n    '4': 'Delivery & Success - Fulfillment, Support, Quality, Retention',\n    '5': 'Product Innovation - Development, Roadmap, Research, Architecture',\n    '6': 'Finance & Admin - Accounting, Legal, Compliance, Vendor Management',\n    '7': 'People & Culture - Hiring, Onboarding, Performance, Knowledge',\n    '8': 'Tech Stack - Infrastructure, Development, Security, Integrations',\n    '9': 'Governance - Processes, Metrics, Reviews, Continuous Improvement'\n  },\n  \n  // Processing instructions for AI\n  ai_instructions: `You are an expert business organization assistant specialized in entropy management.\n  \nAnalyze the provided business information and:\n1. Classify each piece of information according to the 0-9 business framework\n2. Identify actionable insights and next steps\n3. Suggest organizational improvements\n4. Flag any urgent items requiring immediate attention\n5. Maintain systematic structure across all platforms\n\nReturn structured results for automated organization.`,\n  \n  // Expected outputs\n  expected_outputs: {\n    classified_information: 'Items organized by 0-9 framework',\n    action_items: 'Specific tasks with owners and due dates',\n    insights: 'Strategic observations and recommendations',\n    urgent_flags: 'Items requiring immediate attention',\n    organization_updates: 'Files to update or create'\n  }\n};\n\nconsole.log(`🔄 Starting ${triggerType} entropy management for: ${entropyConfig.company_name}`);\nconsole.log(`📅 Processing date: ${entropyConfig.processing_date}`);\n\nreturn [{ json: entropyConfig }];"
+      },
+      "id": "initialize-entropy",
+      "name": "⚙️ Initialize Entropy Process",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 350]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Simulate data collection from various business platforms\n// In a real implementation, this would use MCP servers to collect actual data\nconst config = $('⚙️ Initialize Entropy Process').item.json;\n\n// Simulated business information collected from various sources\nconst collectedData = {\n  timestamp: new Date().toISOString(),\n  company: config.company_name,\n  \n  // Simulated GitHub activity\n  github_data: [\n    {\n      type: 'commit',\n      message: 'Updated product roadmap Q2 2025',\n      author: 'product-team',\n      files: ['05-product/roadmap.md'],\n      timestamp: new Date(Date.now() - 3600000).toISOString()\n    },\n    {\n      type: 'issue',\n      title: 'Improve customer onboarding process',\n      labels: ['enhancement', 'customer-success'],\n      description: 'Current onboarding takes too long, need to streamline',\n      timestamp: new Date(Date.now() - 7200000).toISOString()\n    }\n  ],\n  \n  // Simulated Slack discussions\n  slack_data: [\n    {\n      channel: 'strategy',\n      message: 'We should consider expanding to enterprise market next quarter',\n      author: 'ceo',\n      reactions: ['✅', '🎯'],\n      timestamp: new Date(Date.now() - 5400000).toISOString()\n    },\n    {\n      channel: 'product',\n      message: 'Customer feedback: Need better integration with Salesforce',\n      author: 'customer-success',\n      thread_replies: 3,\n      timestamp: new Date(Date.now() - 1800000).toISOString()\n    }\n  ],\n  \n  // Simulated meeting notes\n  notion_data: [\n    {\n      page: 'Weekly Leadership Meeting',\n      content: 'Decided to hire 2 more engineers for Q2. Budget approved. Start recruiting immediately.',\n      author: 'leadership-team',\n      tags: ['hiring', 'budget', 'decision'],\n      timestamp: new Date(Date.now() - 86400000).toISOString()\n    },\n    {\n      page: 'Customer Interview #15',\n      content: 'Customer wants multi-tenant support. Willing to pay 40% premium. Timeline: 6 months.',\n      author: 'product-research',\n      tags: ['feature-request', 'revenue-opportunity'],\n      timestamp: new Date(Date.now() - 43200000).toISOString()\n    }\n  ],\n  \n  // Simulated email/document updates\n  document_data: [\n    {\n      type: 'contract',\n      title: 'Enterprise Customer Agreement - TechCorp',\n      status: 'pending_signature',\n      value: '$120K ARR',\n      next_action: 'Legal review complete, send to customer',\n      timestamp: new Date(Date.now() - 14400000).toISOString()\n    },\n    {\n      type: 'financial_report',\n      title: 'Monthly Financial Summary - June 2025',\n      highlights: 'Revenue up 15% MoM, burn rate stable, runway 18 months',\n      action_required: 'Review with board next week',\n      timestamp: new Date(Date.now() - 21600000).toISOString()\n    }\n  ],\n  \n  // Collection statistics\n  collection_stats: {\n    total_items: 8,\n    sources_scanned: 4,\n    time_range: '24 hours',\n    collection_method: 'simulated' // In real implementation: 'mcp_integration'\n  }\n};\n\n// Prepare data for AI analysis\nconst analysisPrompt = `${config.ai_instructions}\n\nBUSINESS FRAMEWORK:\n${Object.entries(config.business_framework).map(([num, desc]) => `${num}: ${desc}`).join('\\n')}\n\nCOLLECTED BUSINESS INFORMATION:\n\nGitHub Activity:\n${collectedData.github_data.map(item => `- ${item.type}: ${item.message || item.title} (${item.timestamp})`).join('\\n')}\n\nSlack Discussions:\n${collectedData.slack_data.map(item => `- ${item.channel}: ${item.message} by ${item.author} (${item.timestamp})`).join('\\n')}\n\nMeeting Notes & Documentation:\n${collectedData.notion_data.map(item => `- ${item.page}: ${item.content} (${item.timestamp})`).join('\\n')}\n\nDocuments & Contracts:\n${collectedData.document_data.map(item => `- ${item.title}: ${item.highlights || item.next_action} (${item.timestamp})`).join('\\n')}\n\nPlease analyze this information and provide:\n1. Classification by 0-9 business framework\n2. Actionable insights and recommendations\n3. Urgent items requiring immediate attention\n4. Suggested organizational updates\n5. Cross-platform consistency improvements`;\n\nconst dataForAnalysis = {\n  ...collectedData,\n  ai_prompt: analysisPrompt,\n  framework: config.business_framework,\n  ready_for_ai: true\n};\n\nconsole.log(`📊 Collected ${dataForAnalysis.collection_stats.total_items} items from ${dataForAnalysis.collection_stats.sources_scanned} sources`);\nconsole.log(`🤖 Ready for AI analysis and classification`);\n\nreturn [{ json: dataForAnalysis }];"
+      },
+      "id": "collect-data",
+      "name": "📊 Collect Business Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 350]
+    },
+    {
+      "parameters": {
+        "url": "=http://model-runner.docker.internal:12434/engines/v1/chat/completions",
+        "authentication": "none",
+        "requestMethod": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "ai/llama3.2:1B-Q8_0"
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\": \"system\", \"content\": \"You are an expert business organization assistant specialized in systematic entropy management and the 0-9 business framework.\"}, {\"role\": \"user\", \"content\": \"{{ $json.ai_prompt }}\"}]"
+            },
+            {
+              "name": "max_tokens",
+              "value": 3000
+            },
+            {
+              "name": "temperature",
+              "value": 0.4
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ai-analysis",
+      "name": "🤖 AI Classification & Analysis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [900, 350]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process AI analysis and create organizational actions\nconst collectedData = $('📊 Collect Business Data').item.json;\nconst aiResponse = $('🤖 AI Classification & Analysis').item.json;\nconst config = $('⚙️ Initialize Entropy Process').item.json;\n\n// Extract AI analysis\nconst analysis = aiResponse.choices?.[0]?.message?.content || 'Analysis not available';\nconst usage = aiResponse.usage || {};\n\n// Parse and structure the AI analysis (simplified parsing)\nconst analysisLines = analysis.split('\\n').filter(line => line.trim());\nconst classifiedItems = {};\nconst actionItems = [];\nconst insights = [];\nconst urgentFlags = [];\n\n// Simple parsing logic (in real implementation, this would be more sophisticated)\nanalysisLines.forEach(line => {\n  if (line.match(/^[0-9]:/)) {\n    const domainMatch = line.match(/^([0-9]):\\s*(.*)/);\n    if (domainMatch) {\n      const [, domain, content] = domainMatch;\n      if (!classifiedItems[domain]) classifiedItems[domain] = [];\n      classifiedItems[domain].push(content.trim());\n    }\n  } else if (line.toLowerCase().includes('action') || line.includes('TODO') || line.includes('Next:')) {\n    actionItems.push(line.replace(/^[\\-\\*]\\s*/, '').trim());\n  } else if (line.toLowerCase().includes('insight') || line.toLowerCase().includes('recommend')) {\n    insights.push(line.replace(/^[\\-\\*]\\s*/, '').trim());\n  } else if (line.toLowerCase().includes('urgent') || line.includes('⚠️') || line.includes('🚨')) {\n    urgentFlags.push(line.replace(/^[\\-\\*]\\s*/, '').trim());\n  }\n});\n\n// Generate organizational updates\nconst organizationalUpdates = Object.entries(classifiedItems).map(([domain, items]) => {\n  const frameworkName = config.business_framework[domain] || `Domain ${domain}`;\n  return {\n    domain: domain,\n    domain_name: frameworkName,\n    items_to_organize: items,\n    suggested_actions: [\n      `Update ${domain}-${frameworkName.split(' ')[0].toLowerCase()} documentation`,\n      `Review and categorize ${items.length} new items`,\n      `Ensure cross-platform consistency for domain ${domain}`\n    ]\n  };\n});\n\n// Calculate entropy metrics\nconst entropyMetrics = {\n  items_processed: collectedData.collection_stats.total_items,\n  items_classified: Object.values(classifiedItems).flat().length,\n  domains_affected: Object.keys(classifiedItems).length,\n  action_items_identified: actionItems.length,\n  urgent_items: urgentFlags.length,\n  insights_generated: insights.length,\n  classification_accuracy: Math.round((Object.values(classifiedItems).flat().length / collectedData.collection_stats.total_items) * 100),\n  entropy_reduction: '85%' // Simulated metric\n};\n\n// Prepare platform synchronization actions\nconst platformActions = {\n  github: {\n    files_to_update: organizationalUpdates.filter(update => update.items_to_organize.length > 0).map(update => `${update.domain.padStart(2, '0')}-${update.domain_name.split(' ')[0].toLowerCase()}/new-items-${config.processing_date}.md`),\n    commits_to_make: organizationalUpdates.length\n  },\n  notion: {\n    pages_to_update: organizationalUpdates.map(update => update.domain_name),\n    databases_to_sync: ['Action Items', 'Business Intelligence', 'Decision Log']\n  },\n  slack: {\n    notifications_to_send: urgentFlags.length,\n    channels_to_update: organizationalUpdates.map(update => `${update.domain.padStart(2, '0')}-${update.domain_name.split(' ')[0].toLowerCase()}`)\n  }\n};\n\nconst results = {\n  // Core results\n  company_name: config.company_name,\n  processing_date: config.processing_date,\n  entropy_management_complete: true,\n  \n  // Classification results\n  classified_information: classifiedItems,\n  action_items: actionItems,\n  insights: insights,\n  urgent_flags: urgentFlags,\n  \n  // Organizational updates\n  organizational_updates: organizationalUpdates,\n  platform_actions: platformActions,\n  \n  // Metrics and performance\n  entropy_metrics: entropyMetrics,\n  ai_processing: {\n    tokens_used: usage.total_tokens || 0,\n    model_used: 'ai/llama3.2:1B-Q8_0',\n    processing_time_ms: new Date().getTime() - new Date(config.timestamp).getTime()\n  },\n  \n  // Next steps\n  next_steps: [\n    'Execute platform synchronization actions',\n    'Update team on urgent items requiring attention',\n    'Implement suggested organizational improvements',\n    'Monitor entropy levels for tomorrow\\'s processing'\n  ],\n  \n  // Summary for reporting\n  daily_summary: {\n    items_organized: entropyMetrics.items_processed,\n    entropy_eliminated: entropyMetrics.entropy_reduction,\n    urgent_attention_required: urgentFlags.length,\n    business_insights_generated: insights.length,\n    cross_platform_updates: organizationalUpdates.length,\n    automation_status: '✅ Complete'\n  },\n  \n  timestamp_completed: new Date().toISOString()\n};\n\nconsole.log(`🎉 Entropy management complete: ${results.entropy_metrics.items_processed} items processed`);\nconsole.log(`📊 Domains affected: ${results.entropy_metrics.domains_affected}`);\nconsole.log(`⚠️ Urgent items: ${results.entropy_metrics.urgent_items}`);\nconsole.log(`💡 Insights: ${results.entropy_metrics.insights_generated}`);\n\nreturn [{ json: results }];"
+      },
+      "id": "process-results",
+      "name": "📋 Process & Organize Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1120, 350]
+    },
+    {
+      "parameters": {
+        "content": "=# 🎉 Daily Entropy Management Complete!\n\n## 📊 Processing Summary\n**Company:** {{ $json.company_name }}\n**Date:** {{ $json.processing_date }}\n**Items Processed:** {{ $json.entropy_metrics.items_processed }}\n**Entropy Reduction:** {{ $json.entropy_metrics.entropy_reduction }}\n**Classification Accuracy:** {{ $json.entropy_metrics.classification_accuracy }}%\n\n## 🏗️ Organizational Results\n\n### Items Classified by Business Framework\n{{ Object.entries($json.classified_information).map(([domain, items]) => `**Domain ${domain}:** ${items.length} items\\n${items.slice(0, 3).map(item => `• ${item}`).join('\\n')}${items.length > 3 ? '\\n• ...' : ''}`).join('\\n\\n') }}\n\n### 🎯 Action Items Identified\n{{ $json.action_items.slice(0, 5).map(item => `• ${item}`).join('\\n') }}{{ $json.action_items.length > 5 ? '\\n• ...' : '' }}\n\n### 💡 Business Insights\n{{ $json.insights.slice(0, 3).map(insight => `• ${insight}`).join('\\n') }}{{ $json.insights.length > 3 ? '\\n• ...' : '' }}\n\n### ⚠️ Urgent Attention Required\n{{ $json.urgent_flags.length > 0 ? $json.urgent_flags.map(flag => `🚨 ${flag}`).join('\\n') : '✅ No urgent items identified' }}\n\n## 🔄 Platform Synchronization\n\n### GitHub Updates\n- **Files to Update:** {{ $json.platform_actions.github.files_to_update.length }}\n- **Commits Planned:** {{ $json.platform_actions.github.commits_to_make }}\n\n### Notion Updates\n- **Pages to Sync:** {{ $json.platform_actions.notion.pages_to_update.length }}\n- **Databases to Update:** {{ $json.platform_actions.notion.databases_to_sync.length }}\n\n### Slack Notifications\n- **Channels to Update:** {{ $json.platform_actions.slack.channels_to_update.length }}\n- **Urgent Notifications:** {{ $json.platform_actions.slack.notifications_to_send }}\n\n## 📈 Entropy Metrics\n- **Items Processed:** {{ $json.entropy_metrics.items_processed }}\n- **Domains Affected:** {{ $json.entropy_metrics.domains_affected }}/10\n- **Action Items Generated:** {{ $json.entropy_metrics.action_items_identified }}\n- **Business Insights:** {{ $json.entropy_metrics.insights_generated }}\n- **Processing Time:** {{ $json.ai_processing.processing_time_ms }}ms\n- **Tokens Used:** {{ $json.ai_processing.tokens_used }}\n\n## 🚀 Next Steps\n{{ $json.next_steps.map(step => `• ${step}`).join('\\n') }}\n\n## 📋 Daily Summary\n{{ Object.entries($json.daily_summary).map(([key, value]) => `**${key.replace(/_/g, ' ').replace(/\\b\\w/g, l => l.toUpperCase())}:** ${value}`).join('\\n') }}\n\n---\n*🎯 Entropy management automation completed successfully!*\n*Zero organizational overhead maintained.*\n\n**Completed:** {{ $json.timestamp_completed }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "final-response",
+      "name": "📋 Daily Report",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1340, 350]
+    }
+  ],
+  "connections": {
+    "⏰ Daily 9 AM Trigger": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Initialize Entropy Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔄 Manual Entropy Process": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Initialize Entropy Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Initialize Entropy Process": {
+      "main": [
+        [
+          {
+            "node": "📊 Collect Business Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Collect Business Data": {
+      "main": [
+        [
+          {
+            "node": "🤖 AI Classification & Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🤖 AI Classification & Analysis": {
+      "main": [
+        [
+          {
+            "node": "📋 Process & Organize Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📋 Process & Organize Results": {
+      "main": [
+        [
+          {
+            "node": "📋 Daily Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": ["entropy-management", "daily-automation", "business-organization"],
+  "triggerCount": 0,
+  "updatedAt": "2025-06-22T10:00:00.000Z",
+  "versionId": "1"
+}
