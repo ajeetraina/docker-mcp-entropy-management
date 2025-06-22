@@ -1,0 +1,131 @@
+{
+  "name": "Business OS Builder - Simple",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "build-business-os",
+        "options": {
+          "noResponseBody": false
+        },
+        "responseMode": "responseNode"
+      },
+      "id": "webhook-trigger",
+      "name": "Document Upload Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "build-business-os"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare business analysis prompt\nconst inputData = $input.all()[0].json;\nconst companyName = inputData.company_name || 'Your Company';\nconst documents = inputData.documents || [];\n\nconst prompt = `Create a systematic 0-9 business framework for ${companyName}.\n\nDocuments provided:\n${documents.map(doc => `- ${doc.type}: ${doc.content}`).join('\\n')}\n\nGenerate a structured business operating system with:\n0. Foundation\n1. Market Intelligence\n2. Growth Engine\n3. Sales Pipeline\n4. Delivery & Success\n5. Product Innovation\n6. Finance & Admin\n7. People & Culture\n8. Technology Stack\n9. Governance\n\nFor each domain, provide specific actionable recommendations.`;\n\nreturn {\n  company_name: companyName,\n  ai_prompt: prompt,\n  documents_count: documents.length\n};"
+      },
+      "id": "prepare-analysis",
+      "name": "Prepare Analysis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://model-runner.docker.internal/engines/llama.cpp/v1/chat/completions",
+        "authentication": "none",
+        "requestMethod": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "ai/llama3.2:1B-Q8_0"
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\": \"system\", \"content\": \"You are an expert business architect specialized in creating systematic organizational structures.\"}, {\"role\": \"user\", \"content\": \"{{ $json.ai_prompt }}\"}]"
+            },
+            {
+              "name": "max_tokens",
+              "value": 2000
+            },
+            {
+              "name": "temperature",
+              "value": 0.3
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ai-analysis",
+      "name": "AI Business Analysis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "content": "# 🏗️ Business Operating System Generated!\n\n## Company: {{ $('Prepare Analysis').item.json.company_name }}\n## Documents Processed: {{ $('Prepare Analysis').item.json.documents_count }}\n\n## AI-Generated Business Framework:\n\n{{ $json.choices[0].message.content }}\n\n---\n\n## Next Steps:\n- Review the generated framework\n- Customize for your specific needs\n- Deploy to GitHub using the GitHub Creator workflow\n- Implement daily entropy management\n\n**Generated at:** {{ new Date().toISOString() }}\n**Model Used:** ai/llama3.2:1B-Q8_0\n**Status:** ✅ Complete",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "final-response",
+      "name": "B-OS Complete Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 300]
+    }
+  ],
+  "connections": {
+    "Document Upload Trigger": {
+      "main": [
+        [
+          {
+            "node": "Prepare Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Analysis": {
+      "main": [
+        [
+          {
+            "node": "AI Business Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Business Analysis": {
+      "main": [
+        [
+          {
+            "node": "B-OS Complete Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": ["entropy-management", "business-os"],
+  "triggerCount": 0,
+  "updatedAt": "2025-06-22T10:00:00.000Z",
+  "versionId": "1"
+}
