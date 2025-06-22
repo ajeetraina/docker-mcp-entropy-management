@@ -38,6 +38,9 @@ Ensure that you follow [these steps beforehand](https://github.com/ajeetraina/n8
    - Copy JSON from `ai-business-os-workflow` artifact
    - Import to n8n → Save → Activate
    - **Webhook URL**: `http://localhost:5678/webhook/build-business-os`
+  
+![image](https://github.com/user-attachments/assets/e7ec769b-f2a2-4826-b586-53d1b04355fa)
+
 
 2. **GitHub Structure Creator**
    - Copy JSON from `github_structure_creator` artifact
