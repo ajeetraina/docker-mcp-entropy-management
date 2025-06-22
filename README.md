@@ -28,7 +28,7 @@ cd n8n-model-runner
 docker compose up -d
 ```
 
-Ensure that you follow [these steps beforehand](https://github.com/ajeetraina/n8n-model-runner/blob/main/README.md).
+Ensure that you follow [these steps beforehand](https://github.com/ajeetraina/n8n-model-runner/blob/main/README.md#step-3-project-setup).
 
 ### Step 1: Import the Workflows
 
