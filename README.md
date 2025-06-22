@@ -15,7 +15,20 @@ You now have a complete **AI-Powered Entropy Management System** prototype with 
 - ✅ Model Runner with AI models loaded (model-runner.docker.internal:12434)
 - ✅ Docker MCP Toolkit configured
 
+## Getting Started
+
+
 ## 🚀 Implementation Steps
+
+### Step 0. Bring up n8n + Model Runner + MCP Toolkit
+
+```
+git clone https://github.com/ajeetraina/n8n-model-runner
+cd n8n-model-runner
+docker compose up -d
+```
+
+Ensure that you follow [these steps beforehand](https://github.com/ajeetraina/n8n-model-runner/blob/main/README.md).
 
 ### Step 1: Import the Workflows
 
