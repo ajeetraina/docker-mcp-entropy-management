@@ -4,7 +4,12 @@
 2. Import the Workflow:
 
 3. Click the "+" button or "Import from file" in n8n
-4. Copy the JSON from the artifact above
+4. Copy the JSON from the artifact above OR use the following URL:
+
+```
+https://raw.githubusercontent.com/ajeetraina/docker-mcp-entropy-management/refs/heads/main/testing/simple_business_workflow.json
+```
+
 5. Paste it into the import dialog
 6. Click "Import"
 
