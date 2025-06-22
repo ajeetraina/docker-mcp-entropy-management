@@ -1,5 +1,5 @@
 {
-  "name": "Business OS Builder",
+  "name": "AI Business OS Builder (Working)",
   "nodes": [
     {
       "parameters": {
@@ -8,33 +8,84 @@
         "responseMode": "responseNode",
         "options": {}
       },
-      "id": "webhook-node",
+      "id": "webhook-business-os",
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
-      "position": [240, 300],
-      "webhookId": "business-os-webhook"
+      "position": [240, 300]
     },
     {
       "parameters": {
-        "functionCode": "// Extract company data from webhook body\nconst companyName = $json.body.company_name || 'Unknown Company';\nconst documents = $json.body.documents || [];\n\n// Helper function to filter documents by type\nfunction getDocumentsByType(type) {\n  return documents.filter(d => d && d.type === type);\n}\n\n// Create Business OS Structure (0-9 Framework)\nconst businessOS = {\n  \"0\": {\n    \"name\": \"Foundation\",\n    \"description\": \"Core identity and governance\",\n    \"subdomains\": {\n      \"0.1\": \"Vision Mission Values\",\n      \"0.2\": \"Legal Entity\",\n      \"0.3\": \"Governance Structure\"\n    },\n    \"content\": getDocumentsByType('mission_vision_values')\n  },\n  \"1\": {\n    \"name\": \"Market Intelligence\", \n    \"description\": \"Customer and market understanding\",\n    \"subdomains\": {\n      \"1.1\": \"Customer Personas\",\n      \"1.2\": \"Market Research\",\n      \"1.3\": \"Competitive Analysis\"\n    },\n    \"content\": []\n  },\n  \"2\": {\n    \"name\": \"Brand & Marketing\",\n    \"description\": \"Brand identity and marketing strategy\",\n    \"subdomains\": {\n      \"2.1\": \"Brand Guidelines\",\n      \"2.2\": \"Marketing Strategy\",\n      \"2.3\": \"Content Framework\"\n    },\n    \"content\": getDocumentsByType('brand_guidelines')\n  },\n  \"3\": {\n    \"name\": \"Product & Innovation\",\n    \"description\": \"Product development and innovation\",\n    \"subdomains\": {\n      \"3.1\": \"Product Roadmap\",\n      \"3.2\": \"Feature Requirements\",\n      \"3.3\": \"Innovation Pipeline\"\n    },\n    \"content\": []\n  },\n  \"4\": {\n    \"name\": \"Operations\",\n    \"description\": \"Day-to-day business operations\", \n    \"subdomains\": {\n      \"4.1\": \"Process Documentation\",\n      \"4.2\": \"Quality Management\",\n      \"4.3\": \"Supply Chain\"\n    },\n    \"content\": []\n  },\n  \"5\": {\n    \"name\": \"Technology & Systems\",\n    \"description\": \"Technology infrastructure and systems\",\n    \"subdomains\": {\n      \"5.1\": \"Tech Stack\",\n      \"5.2\": \"System Architecture\",\n      \"5.3\": \"Development Process\"\n    },\n    \"content\": getDocumentsByType('resource_inventory')\n  },\n  \"6\": {\n    \"name\": \"Human Resources\",\n    \"description\": \"People, culture, and talent management\",\n    \"subdomains\": {\n      \"6.1\": \"Team Structure\",\n      \"6.2\": \"Culture & Values\",\n      \"6.3\": \"Talent Strategy\"\n    },\n    \"content\": []\n  },\n  \"7\": {\n    \"name\": \"Finance & Legal\",\n    \"description\": \"Financial management and legal compliance\",\n    \"subdomains\": {\n      \"7.1\": \"Financial Planning\",\n      \"7.2\": \"Legal Compliance\",\n      \"7.3\": \"Risk Management\"\n    },\n    \"content\": []\n  },\n  \"8\": {\n    \"name\": \"Partnerships & Stakeholders\",\n    \"description\": \"External relationships and partnerships\",\n    \"subdomains\": {\n      \"8.1\": \"Strategic Partnerships\",\n      \"8.2\": \"Investor Relations\",\n      \"8.3\": \"Community Engagement\"\n    },\n    \"content\": []\n  },\n  \"9\": {\n    \"name\": \"Growth & Future\",\n    \"description\": \"Future planning and growth strategies\",\n    \"subdomains\": {\n      \"9.1\": \"Growth Strategy\",\n      \"9.2\": \"Future Roadmap\",\n      \"9.3\": \"Scaling Plans\"\n    },\n    \"content\": []\n  }\n};\n\n// Generate implementation roadmap\nconst roadmap = {\n  \"phase_1\": {\n    \"name\": \"Foundation Setup\",\n    \"duration\": \"2-4 weeks\",\n    \"domains\": [\"0\", \"2\", \"5\"],\n    \"tasks\": [\n      \"Document mission, vision, values\",\n      \"Establish brand guidelines\",\n      \"Map current technology stack\"\n    ]\n  },\n  \"phase_2\": {\n    \"name\": \"Market & Operations\", \n    \"duration\": \"4-6 weeks\",\n    \"domains\": [\"1\", \"4\", \"6\"],\n    \"tasks\": [\n      \"Conduct market research\",\n      \"Document core processes\",\n      \"Define team structure\"\n    ]\n  },\n  \"phase_3\": {\n    \"name\": \"Growth & Optimization\",\n    \"duration\": \"6-8 weeks\", \n    \"domains\": [\"3\", \"7\", \"8\", \"9\"],\n    \"tasks\": [\n      \"Develop product roadmap\",\n      \"Establish financial planning\",\n      \"Build partnership strategy\"\n    ]\n  }\n};\n\nreturn [{\n  company_name: companyName,\n  business_os: businessOS,\n  implementation_roadmap: roadmap,\n  status: 'success',\n  message: `Business OS structure generated for ${companyName}`,\n  timestamp: new Date().toISOString(),\n  debug: {\n    documents_received: documents.length,\n    documents_types: documents.map(d => d.type),\n    foundation_content: getDocumentsByType('mission_vision_values').length,\n    brand_content: getDocumentsByType('brand_guidelines').length,\n    tech_content: getDocumentsByType('resource_inventory').length\n  }\n}];"
+        "functionCode": "// Extract and prepare business data for AI analysis\nconst companyName = $json.body.company_name || 'Unknown Company';\nconst documents = $json.body.documents || [];\n\nconsole.log('=== BUSINESS OS PREPARATION ===');\nconsole.log('Company:', companyName);\nconsole.log('Documents:', documents.length);\n\n// Create AI analysis prompt\nconst businessContext = documents.map(doc => \n  `${doc.type.toUpperCase().replace(/_/g, ' ')}:\\n${doc.content}`\n).join('\\n\\n');\n\nconst aiPrompt = `You are an expert business strategist. Analyze this business information for ${companyName}:\n\n${businessContext}\n\nProvide analysis in JSON format with these keys:\n{\n  \"business_focus\": \"Primary industry (e.g., 'B2B SaaS', 'E-commerce')\",\n  \"core_value_proposition\": \"Main value delivered\",\n  \"target_customers\": [\"Customer segment 1\", \"Segment 2\"],\n  \"competitive_advantages\": [\"Advantage 1\", \"Advantage 2\"],\n  \"technology_stack\": [\"Tech 1\", \"Tech 2\"],\n  \"business_model\": \"How company makes money\",\n  \"growth_opportunities\": [\"Opportunity 1\", \"Opportunity 2\"],\n  \"operational_challenges\": [\"Challenge 1\", \"Challenge 2\"],\n  \"strategic_priorities\": [\"Priority 1\", \"Priority 2\"],\n  \"risk_factors\": [\"Risk 1\", \"Risk 2\"]\n}\n\nRespond with valid JSON only.`;\n\nreturn [{\n  company_name: companyName,\n  documents: documents,\n  ai_prompt: aiPrompt,\n  document_count: documents.length,\n  timestamp: new Date().toISOString()\n}];"
       },
-      "id": "process-data",
-      "name": "Process Business Data", 
+      "id": "prepare-ai-analysis",
+      "name": "Prepare AI Analysis",
       "type": "n8n-nodes-base.function",
       "typeVersion": 1,
       "position": [460, 300]
     },
     {
       "parameters": {
+        "url": "http://model-runner.docker.internal/engines/llama.cpp/v1/chat/completions",
+        "httpMethod": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "ai/llama3.2:3B"
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\": \"system\", \"content\": \"You are a business strategist. Always respond with valid JSON only.\"}, {\"role\": \"user\", \"content\": \"{{ $json.ai_prompt }}\"}]"
+            },
+            {
+              "name": "temperature",
+              "value": "0.2"
+            },
+            {
+              "name": "max_tokens",
+              "value": "800"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ai-business-analysis",
+      "name": "AI Business Analysis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "// Create AI-Enhanced Business OS safely\nconsole.log('=== CREATING AI BUSINESS OS ===');\n\n// Get input data safely\nconst allInputs = $input.all();\nconst inputData = allInputs[0]?.json || {};\nconst aiResponse = $json || {};\n\nconsole.log('Input data keys:', Object.keys(inputData));\nconsole.log('AI response keys:', Object.keys(aiResponse));\n\n// Parse AI insights with fallback\nlet businessIntelligence = {};\ntry {\n  if (aiResponse.choices && aiResponse.choices[0] && aiResponse.choices[0].message) {\n    const aiContent = aiResponse.choices[0].message.content.trim();\n    const cleanContent = aiContent.replace(/```json\\n?|```\\n?/g, '').trim();\n    businessIntelligence = JSON.parse(cleanContent);\n    console.log('AI analysis successful:', Object.keys(businessIntelligence));\n  }\n} catch (error) {\n  console.log('AI parsing error, using fallback:', error.message);\n  businessIntelligence = {\n    business_focus: 'Technology/Software',\n    core_value_proposition: 'Innovation and efficiency through technology',\n    target_customers: ['Small to Medium Businesses', 'Tech-enabled organizations'],\n    competitive_advantages: ['Technical expertise', 'Innovation speed', 'Customer focus'],\n    technology_stack: ['Modern web technologies', 'Cloud infrastructure'],\n    business_model: 'Software as a Service',\n    growth_opportunities: ['Market expansion', 'Product enhancement', 'Partnership development'],\n    operational_challenges: ['Scaling infrastructure', 'Talent acquisition'],\n    strategic_priorities: ['Product development', 'Customer acquisition', 'Market expansion'],\n    risk_factors: ['Market competition', 'Technology changes']\n  };\n}\n\n// Safe data extraction\nconst companyName = inputData.company_name || 'Your Company';\nconst documents = inputData.documents || [];\n\n// Safe helper functions\nfunction getDocumentsByType(type) {\n  if (!Array.isArray(documents)) return [];\n  return documents.filter(d => d && d.type === type);\n}\n\nfunction safeArray(value) {\n  if (Array.isArray(value)) return value;\n  if (value && typeof value === 'string') return [value];\n  return [];\n}\n\nfunction safeString(value) {\n  if (typeof value === 'string') return value;\n  if (Array.isArray(value)) return value.join(', ');\n  return 'Not specified';\n}\n\n// Create comprehensive Business OS\nconst businessOS = {\n  \"0\": {\n    \"name\": \"Foundation\",\n    \"description\": \"Core identity, governance, and strategic direction\",\n    \"subdomains\": {\n      \"0.1\": \"Vision Mission Values\",\n      \"0.2\": \"Legal Entity & Governance\",\n      \"0.3\": \"Strategic Framework\"\n    },\n    \"content\": getDocumentsByType('mission_vision_values'),\n    \"ai_insights\": {\n      \"business_focus\": safeString(businessIntelligence.business_focus),\n      \"core_value_proposition\": safeString(businessIntelligence.core_value_proposition),\n      \"strategic_priorities\": safeArray(businessIntelligence.strategic_priorities)\n    },\n    \"action_items\": [\n      `Document ${safeString(businessIntelligence.business_focus)} strategic framework`,\n      `Define core value proposition: ${safeString(businessIntelligence.core_value_proposition)}`,\n      \"Establish governance structure\"\n    ]\n  },\n  \"1\": {\n    \"name\": \"Market Intelligence\",\n    \"description\": \"Customer insights, market analysis, and competitive positioning\",\n    \"subdomains\": {\n      \"1.1\": \"Customer Personas & Segments\",\n      \"1.2\": \"Market Research & Analysis\",\n      \"1.3\": \"Competitive Intelligence\"\n    },\n    \"content\": [],\n    \"ai_insights\": {\n      \"target_customers\": safeArray(businessIntelligence.target_customers),\n      \"competitive_advantages\": safeArray(businessIntelligence.competitive_advantages)\n    },\n    \"action_items\": [\n      `Research ${safeArray(businessIntelligence.target_customers).slice(0,2).join(' and ')} segments`,\n      \"Conduct competitive analysis\",\n      \"Validate market positioning\"\n    ]\n  },\n  \"2\": {\n    \"name\": \"Brand & Marketing\",\n    \"description\": \"Brand identity, marketing strategy, and customer communication\",\n    \"subdomains\": {\n      \"2.1\": \"Brand Guidelines & Identity\",\n      \"2.2\": \"Marketing Strategy & Campaigns\",\n      \"2.3\": \"Content Strategy & Framework\"\n    },\n    \"content\": getDocumentsByType('brand_guidelines'),\n    \"ai_insights\": {\n      \"competitive_advantages\": safeArray(businessIntelligence.competitive_advantages),\n      \"target_customers\": safeArray(businessIntelligence.target_customers),\n      \"value_proposition\": safeString(businessIntelligence.core_value_proposition)\n    },\n    \"action_items\": [\n      `Develop messaging highlighting ${safeArray(businessIntelligence.competitive_advantages).slice(0,2).join(' and ')}`,\n      `Create content for ${safeArray(businessIntelligence.target_customers).slice(0,2).join(' and ')}`,\n      \"Establish brand guidelines\"\n    ]\n  },\n  \"3\": {\n    \"name\": \"Product & Innovation\",\n    \"description\": \"Product development, innovation pipeline, and R&D\",\n    \"subdomains\": {\n      \"3.1\": \"Product Roadmap & Strategy\",\n      \"3.2\": \"Feature Development & Requirements\",\n      \"3.3\": \"Innovation & R&D Pipeline\"\n    },\n    \"content\": [],\n    \"ai_insights\": {\n      \"growth_opportunities\": safeArray(businessIntelligence.growth_opportunities),\n      \"technology_stack\": safeArray(businessIntelligence.technology_stack),\n      \"strategic_priorities\": safeArray(businessIntelligence.strategic_priorities)\n    },\n    \"action_items\": [\n      `Develop roadmap for ${safeArray(businessIntelligence.growth_opportunities).slice(0,2).join(' and ')}`,\n      `Leverage ${safeArray(businessIntelligence.technology_stack).slice(0,2).join(' and ')}`,\n      \"Establish R&D process\"\n    ]\n  },\n  \"4\": {\n    \"name\": \"Operations\",\n    \"description\": \"Business processes, quality management, and operational efficiency\",\n    \"subdomains\": {\n      \"4.1\": \"Process Documentation & SOPs\",\n      \"4.2\": \"Quality Management & Standards\",\n      \"4.3\": \"Supply Chain & Vendor Management\"\n    },\n    \"content\": [],\n    \"ai_insights\": {\n      \"operational_challenges\": safeArray(businessIntelligence.operational_challenges),\n      \"business_model\": safeString(businessIntelligence.business_model)\n    },\n    \"action_items\": [\n      `Address ${safeArray(businessIntelligence.operational_challenges).slice(0,2).join(' and ')}`,\n      `Optimize ${safeString(businessIntelligence.business_model)} operations`,\n      \"Document core processes\"\n    ]\n  },\n  \"5\": {\n    \"name\": \"Technology & Systems\",\n    \"description\": \"Technology infrastructure, development processes, and technical architecture\",\n    \"subdomains\": {\n      \"5.1\": \"Technology Stack & Architecture\",\n      \"5.2\": \"Development Process & DevOps\",\n      \"5.3\": \"Infrastructure & Security\"\n    },\n    \"content\": getDocumentsByType('resource_inventory'),\n    \"ai_insights\": {\n      \"technology_stack\": safeArray(businessIntelligence.technology_stack),\n      \"competitive_advantages\": safeArray(businessIntelligence.competitive_advantages)\n    },\n    \"action_items\": [\n      `Document ${safeArray(businessIntelligence.technology_stack).slice(0,2).join(' and ')} architecture`,\n      \"Establish development standards\",\n      \"Implement security framework\"\n    ]\n  },\n  \"6\": {\n    \"name\": \"Human Resources\",\n    \"description\": \"Team structure, culture, talent management, and organizational development\",\n    \"subdomains\": {\n      \"6.1\": \"Team Structure & Roles\",\n      \"6.2\": \"Culture & Values Implementation\",\n      \"6.3\": \"Talent Strategy & Development\"\n    },\n    \"content\": [],\n    \"ai_insights\": {\n      \"operational_challenges\": safeArray(businessIntelligence.operational_challenges),\n      \"competitive_advantages\": safeArray(businessIntelligence.competitive_advantages)\n    },\n    \"action_items\": [\n      \"Define team structure and roles\",\n      \"Implement culture framework\",\n      \"Develop talent strategy\"\n    ]\n  },\n  \"7\": {\n    \"name\": \"Finance & Legal\",\n    \"description\": \"Financial planning, legal compliance, risk management, and governance\",\n    \"subdomains\": {\n      \"7.1\": \"Financial Planning & Analysis\",\n      \"7.2\": \"Legal Compliance & Contracts\",\n      \"7.3\": \"Risk Management & Insurance\"\n    },\n    \"content\": [],\n    \"ai_insights\": {\n      \"business_model\": safeString(businessIntelligence.business_model),\n      \"risk_factors\": safeArray(businessIntelligence.risk_factors)\n    },\n    \"action_items\": [\n      `Develop ${safeString(businessIntelligence.business_model)} financial model`,\n      `Mitigate ${safeArray(businessIntelligence.risk_factors).slice(0,2).join(' and ')}`,\n      \"Establish compliance framework\"\n    ]\n  },\n  \"8\": {\n    \"name\": \"Partnerships & Stakeholders\",\n    \"description\": \"Strategic partnerships, stakeholder management, and external relationships\",\n    \"subdomains\": {\n      \"8.1\": \"Strategic Partnerships & Alliances\",\n      \"8.2\": \"Investor Relations & Funding\",\n      \"8.3\": \"Community & Public Relations\"\n    },\n    \"content\": [],\n    \"ai_insights\": {\n      \"growth_opportunities\": safeArray(businessIntelligence.growth_opportunities),\n      \"target_customers\": safeArray(businessIntelligence.target_customers)\n    },\n    \"action_items\": [\n      `Develop partnerships for ${safeArray(businessIntelligence.growth_opportunities).slice(0,2).join(' and ')}`,\n      \"Build stakeholder communication\",\n      \"Engage target communities\"\n    ]\n  },\n  \"9\": {\n    \"name\": \"Growth & Future\",\n    \"description\": \"Growth strategy, future planning, innovation, and scaling framework\",\n    \"subdomains\": {\n      \"9.1\": \"Growth Strategy & Expansion\",\n      \"9.2\": \"Future Roadmap & Vision\",\n      \"9.3\": \"Scaling Framework & Systems\"\n    },\n    \"content\": [],\n    \"ai_insights\": {\n      \"growth_opportunities\": safeArray(businessIntelligence.growth_opportunities),\n      \"strategic_priorities\": safeArray(businessIntelligence.strategic_priorities)\n    },\n    \"action_items\": [\n      `Execute ${safeArray(businessIntelligence.growth_opportunities).slice(0,2).join(' and ')}`,\n      `Focus on ${safeArray(businessIntelligence.strategic_priorities).slice(0,2).join(' and ')}`,\n      \"Build scaling infrastructure\"\n    ]\n  }\n};\n\n// Generate AI-powered implementation roadmap\nconst aiRoadmap = {\n  \"phase_1\": {\n    \"name\": \"AI-Guided Foundation & Core Systems\",\n    \"duration\": \"4-6 weeks\",\n    \"domains\": [\"0\", \"2\", \"5\"],\n    \"focus\": `Establish ${safeString(businessIntelligence.business_focus)} foundation`,\n    \"key_tasks\": [\n      `Define ${safeString(businessIntelligence.business_focus)} framework`,\n      `Document ${safeString(businessIntelligence.core_value_proposition)}`,\n      `Implement ${safeArray(businessIntelligence.technology_stack).slice(0,2).join(' and ')} systems`\n    ],\n    \"ai_priority\": \"Critical - Foundation enables all other domains\"\n  },\n  \"phase_2\": {\n    \"name\": \"Market Intelligence & Product Development\",\n    \"duration\": \"6-8 weeks\",\n    \"domains\": [\"1\", \"3\", \"4\"],\n    \"focus\": `Build market presence and ${safeString(businessIntelligence.business_model)} capabilities`,\n    \"key_tasks\": [\n      `Research ${safeArray(businessIntelligence.target_customers).slice(0,2).join(' and ')}`,\n      `Address ${safeArray(businessIntelligence.operational_challenges).slice(0,2).join(' and ')}`,\n      \"Establish competitive framework\"\n    ],\n    \"ai_priority\": \"High - Market understanding drives success\"\n  },\n  \"phase_3\": {\n    \"name\": \"Growth & Scale Infrastructure\",\n    \"duration\": \"8-12 weeks\",\n    \"domains\": [\"6\", \"7\", \"8\", \"9\"],\n    \"focus\": \"Scale organization and growth infrastructure\",\n    \"key_tasks\": [\n      \"Build scaling team\",\n      `Execute ${safeArray(businessIntelligence.growth_opportunities).slice(0,2).join(' and ')}`,\n      `Mitigate ${safeArray(businessIntelligence.risk_factors).slice(0,2).join(' and ')}`\n    ],\n    \"ai_priority\": \"Strategic - Enables sustainable growth\"\n  }\n};\n\nconsole.log('Business OS created successfully');\n\nreturn [{\n  company_name: companyName,\n  business_os: businessOS,\n  ai_roadmap: aiRoadmap,\n  business_intelligence: businessIntelligence,\n  ai_model_used: \"ai/llama3.2:3B\",\n  analysis_timestamp: new Date().toISOString(),\n  status: 'success',\n  message: `AI-Enhanced Business OS generated for ${companyName} using local Model Runner`,\n  performance: {\n    documents_analyzed: documents.length,\n    ai_insights_generated: Object.keys(businessIntelligence).length,\n    domains_enhanced: 10,\n    action_items_created: Object.values(businessOS).reduce((acc, domain) => acc + (domain.action_items?.length || 0), 0)\n  },\n  debug: {\n    input_data_keys: Object.keys(inputData),\n    ai_response_available: !!aiResponse.choices,\n    business_intelligence_keys: Object.keys(businessIntelligence),\n    safe_processing: true\n  }\n}];"
+      },
+      "id": "create-ai-business-os",
+      "name": "Create AI Business OS",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
         "respondWith": "json",
         "responseBody": "={{ $json }}"
       },
-      "id": "response-node",
-      "name": "Response",
-      "type": "n8n-nodes-base.respondToWebhook", 
+      "id": "ai-response",
+      "name": "AI Response",
+      "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1,
-      "position": [680, 300]
+      "position": [1120, 300]
     }
   ],
   "connections": {
@@ -42,18 +93,40 @@
       "main": [
         [
           {
-            "node": "Process Business Data",
+            "node": "Prepare AI Analysis",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Process Business Data": {
+    "Prepare AI Analysis": {
       "main": [
         [
           {
-            "node": "Response", 
+            "node": "AI Business Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Business Analysis": {
+      "main": [
+        [
+          {
+            "node": "Create AI Business OS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create AI Business OS": {
+      "main": [
+        [
+          {
+            "node": "AI Response",
             "type": "main",
             "index": 0
           }
@@ -69,12 +142,5 @@
     "templateCredsSetupCompleted": true
   },
   "pinData": {},
-  "tags": [
-    {
-      "createdAt": "2025-06-22T10:00:00.000Z",
-      "updatedAt": "2025-06-22T10:00:00.000Z",
-      "id": "1",
-      "name": "business-os"
-    }
-  ]
+  "tags": []
 }
