@@ -1,0 +1,67 @@
+{
+  "name": "Business OS Builder",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "build-business-os",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "business-os-webhook"
+    },
+    {
+      "parameters": {
+        "functionCode": "// Extract company data from webhook\nconst companyName = $json.company_name || 'Unknown Company';\nconst documents = $json.documents || [];\n\n// Create Business OS Structure (0-9 Framework)\nconst businessOS = {\n  \"0\": {\n    \"name\": \"Foundation\",\n    \"description\": \"Core identity and governance\",\n    \"subdomains\": {\n      \"0.1\": \"Vision Mission Values\",\n      \"0.2\": \"Legal Entity\",\n      \"0.3\": \"Governance Structure\"\n    },\n    \"content\": documents.filter(d => d.type === 'mission_vision_values')\n  },\n  \"1\": {\n    \"name\": \"Market Intelligence\", \n    \"description\": \"Customer and market understanding\",\n    \"subdomains\": {\n      \"1.1\": \"Customer Personas\",\n      \"1.2\": \"Market Research\",\n      \"1.3\": \"Competitive Analysis\"\n    },\n    \"content\": []\n  },\n  \"2\": {\n    \"name\": \"Brand & Marketing\",\n    \"description\": \"Brand identity and marketing strategy\",\n    \"subdomains\": {\n      \"2.1\": \"Brand Guidelines\",\n      \"2.2\": \"Marketing Strategy\",\n      \"2.3\": \"Content Framework\"\n    },\n    \"content\": documents.filter(d => d.type === 'brand_guidelines')\n  },\n  \"3\": {\n    \"name\": \"Product & Innovation\",\n    \"description\": \"Product development and innovation\",\n    \"subdomains\": {\n      \"3.1\": \"Product Roadmap\",\n      \"3.2\": \"Feature Requirements\",\n      \"3.3\": \"Innovation Pipeline\"\n    },\n    \"content\": []\n  },\n  \"4\": {\n    \"name\": \"Operations\",\n    \"description\": \"Day-to-day business operations\", \n    \"subdomains\": {\n      \"4.1\": \"Process Documentation\",\n      \"4.2\": \"Quality Management\",\n      \"4.3\": \"Supply Chain\"\n    },\n    \"content\": []\n  },\n  \"5\": {\n    \"name\": \"Technology & Systems\",\n    \"description\": \"Technology infrastructure and systems\",\n    \"subdomains\": {\n      \"5.1\": \"Tech Stack\",\n      \"5.2\": \"System Architecture\",\n      \"5.3\": \"Development Process\"\n    },\n    \"content\": documents.filter(d => d.type === 'resource_inventory')\n  },\n  \"6\": {\n    \"name\": \"Human Resources\",\n    \"description\": \"People, culture, and talent management\",\n    \"subdomains\": {\n      \"6.1\": \"Team Structure\",\n      \"6.2\": \"Culture & Values\",\n      \"6.3\": \"Talent Strategy\"\n    },\n    \"content\": []\n  },\n  \"7\": {\n    \"name\": \"Finance & Legal\",\n    \"description\": \"Financial management and legal compliance\",\n    \"subdomains\": {\n      \"7.1\": \"Financial Planning\",\n      \"7.2\": \"Legal Compliance\",\n      \"7.3\": \"Risk Management\"\n    },\n    \"content\": []\n  },\n  \"8\": {\n    \"name\": \"Partnerships & Stakeholders\",\n    \"description\": \"External relationships and partnerships\",\n    \"subdomains\": {\n      \"8.1\": \"Strategic Partnerships\",\n      \"8.2\": \"Investor Relations\",\n      \"8.3\": \"Community Engagement\"\n    },\n    \"content\": []\n  },\n  \"9\": {\n    \"name\": \"Growth & Future\",\n    \"description\": \"Future planning and growth strategies\",\n    \"subdomains\": {\n      \"9.1\": \"Growth Strategy\",\n      \"9.2\": \"Future Roadmap\",\n      \"9.3\": \"Scaling Plans\"\n    },\n    \"content\": []\n  }\n};\n\n// Generate implementation roadmap\nconst roadmap = {\n  \"phase_1\": {\n    \"name\": \"Foundation Setup\",\n    \"duration\": \"2-4 weeks\",\n    \"domains\": [\"0\", \"2\", \"5\"],\n    \"tasks\": [\n      \"Document mission, vision, values\",\n      \"Establish brand guidelines\",\n      \"Map current technology stack\"\n    ]\n  },\n  \"phase_2\": {\n    \"name\": \"Market & Operations\", \n    \"duration\": \"4-6 weeks\",\n    \"domains\": [\"1\", \"4\", \"6\"],\n    \"tasks\": [\n      \"Conduct market research\",\n      \"Document core processes\",\n      \"Define team structure\"\n    ]\n  },\n  \"phase_3\": {\n    \"name\": \"Growth & Optimization\",\n    \"duration\": \"6-8 weeks\", \n    \"domains\": [\"3\", \"7\", \"8\", \"9\"],\n    \"tasks\": [\n      \"Develop product roadmap\",\n      \"Establish financial planning\",\n      \"Build partnership strategy\"\n    ]\n  }\n};\n\nreturn [{\n  company_name: companyName,\n  business_os: businessOS,\n  implementation_roadmap: roadmap,\n  status: 'success',\n  message: `Business OS structure generated for ${companyName}`,\n  timestamp: new Date().toISOString()\n}];"
+      },
+      "id": "process-data",
+      "name": "Process Business Data", 
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "id": "response-node",
+      "name": "Response",
+      "type": "n8n-nodes-base.respondToWebhook", 
+      "typeVersion": 1,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Business Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Business Data": {
+      "main": [
+        [
+          {
+            "node": "Response", 
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "1"
+}
