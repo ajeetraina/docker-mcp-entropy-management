@@ -316,36 +316,7 @@ Track your entropy elimination progress:
 - **Automation Reliability**: Target 99%+ uptime
 - **Data Coverage**: Target 100% business information captured
 
-## 📋 Troubleshooting
 
-### Common Issues
-
-**Workflow fails at AI analysis step:**
-- Check Model Runner is running on correct URL
-- Verify AI models are loaded
-- Check token limits and increase if needed
-
-**GitHub creation fails:**
-- Verify GitHub Personal Access Token permissions
-- Ensure GitHub MCP server is enabled
-- Check repository name uniqueness
-
-**Daily automation not running:**
-- Verify cron trigger is active
-- Check n8n workflow is saved and activated
-- Review execution logs for errors
-
-### Performance Optimization
-
-**Reduce AI processing time:**
-- Optimize prompts for conciseness
-- Batch process similar items
-- Use faster AI models when appropriate
-
-**Improve classification accuracy:**
-- Customize business framework for your domain
-- Add domain-specific examples
-- Train on your business terminology
 
 ## 🎉 Getting Started Checklist
 
