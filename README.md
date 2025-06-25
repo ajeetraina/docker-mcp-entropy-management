@@ -107,23 +107,25 @@ Edit the `.env` file:
 ## Step 3. Bring up Compose service
 
 ```
+cd n8n
 docker compose up -d
 ```
 
 This uses your Dockerfile.n8n and compose.yaml to start:
 
-✅ PostgreSQL database
-✅ n8n with Docker CLI installed
-✅ Redis (optional)
-✅ n8n worker (optional)
+- ✅ PostgreSQL database
+- ✅ n8n with Docker CLI installed
+- ✅ Redis (optional)
+- ✅ n8n worker (optional)
 
 ### Step 4. Start MCP HTTP Bridge (Host)
+
+MCP Gateway doesn't have HTTP/REST API flags. It's designed for MCP protocol connections (like Claude Desktop), not HTTP endpoints.
+Since the gateway doesn't expose HTTP endpoints, let's implement the HTTP bridge approach.
 
 In a separate terminal, you need to manually start the bridge:
 
 ```
-cd n8n-model-runner
-
 # Start the bridge (this must run on HOST, not in container)
 node mcp-http-bridge.js
 ```
