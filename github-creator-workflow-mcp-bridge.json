@@ -1,9 +1,10 @@
 {
-  "name": "GitHub Structure Creator - Fixed",
+  "name": "GitHub Structure Creator - Complete & Working",
   "nodes": [
     {
       "parameters": {
         "path": "create-github-structure",
+        "httpMethod": "POST",
         "options": {}
       },
       "id": "1e5b3e3e-4f2a-4b1c-8c5d-6e7f8a9b0c1d",
@@ -31,7 +32,7 @@
             },
             {
               "name": "domains",
-              "value": "={{ JSON.stringify($json.body.domains) }}"
+              "value": "={{ $json.body.domains }}"
             }
           ]
         },
@@ -79,7 +80,8 @@
     {
       "parameters": {
         "batchSize": 1,
-        "options": {}
+        "options": {},
+        "fieldName": "files"
       },
       "id": "5c9f7a7c-8b6e-7f5a-ca9b-0c1d2e3f4a5b",
       "name": "Batch Domain Files",
@@ -101,7 +103,7 @@
         },
         "sendBody": true,
         "bodyContentType": "raw",
-        "body": "{\n  \"owner\": \"{{ $json.github_owner }}\",\n  \"repo\": \"{{ $json.repository_name }}\",\n  \"path\": \"{{ $json.files[$json.\"SplitInBatches.index\"].path }}\",\n  \"content\": \"{{ $json.files[$json.\"SplitInBatches.index\"].content }}\",\n  \"message\": \"Create {{ $json.files[$json.\"SplitInBatches.index\"].type }} structure for {{ $json.company_name }}\",\n  \"branch\": \"main\"\n}",
+        "body": "{\n  \"owner\": \"{{ $json.github_owner }}\",\n  \"repo\": \"{{ $json.repository_name }}\",\n  \"path\": \"{{ $json.path }}\",\n  \"content\": \"{{ $json.content }}\",\n  \"message\": \"Create {{ $json.type }} structure for {{ $json.company_name }}\",\n  \"branch\": \"main\"\n}",
         "options": {}
       },
       "id": "6daeb8ad-9c7f-8a6b-db0c-1d2e3f4a5b6c", 
@@ -256,5 +258,5 @@
   },
   "active": true,
   "settings": {},
-  "versionId": "github-creator-fixed-v1"
+  "versionId": "github-creator-final-working-v1"
 }
