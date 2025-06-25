@@ -50,15 +50,83 @@ You now have a complete **AI-Powered Entropy Management System** prototype with 
 - Translates HTTP requests → docker mcp commands
 - You verified this works: Bridge successfully called MCP ✅
 
-### Step 0. Bring up n8n + Model Runner + MCP Toolkit
+## Step 0. Bring up n8n using Docker Compose
+
+### Prerequisite
+
+- Docker Desktop 4.42+ installed
+- Enable Docker MCP Toolkit
+- GitHub MCP added as Server
+- Claude Desktop configured as Client
+
+### Step 1: Download AI Models
+
+Pull your preferred models:
+
+```bash
+# Lightweight model (fast, good for testing)
+docker model pull ai/llama3.2:1B-Q8_0
+
+# Balanced model (recommended)
+docker model pull ai/llama3.2:3B
+
+# More capable model
+docker model pull ai/gemma3:2B
+
+# List downloaded models
+docker model ls
+```
+
+### Step 2. Clone the repository
 
 ```
-git clone https://github.com/ajeetraina/n8n-model-runner
-cd n8n-model-runner
+git clone https://github.com/ajeetraina/docker-mcp-entropy-management
+cd docker-mcp-entropy-management
+```
+
+## Step 3: Configure Environment
+
+Copy `sample.env` to `.env` file and make the below changes
+
+Edit the `.env` file:
+
+1. **Change the encryption key**:
+   ```bash
+   # Generate a random key
+   openssl rand -hex 32
+   ```
+   Replace `N8N_ENCRYPTION_KEY` with the generated key.
+
+2. **Choose your model**:
+   Set `N8N_AI_DEFAULT_MODEL` to one of your downloaded models.
+
+3. **Set your timezone**:
+   Update `GENERIC_TIMEZONE` to your timezone.
+
+
+## Step 3. Bring up Compose service
+
+```
 docker compose up -d
 ```
 
-Ensure that you follow [these steps beforehand](https://github.com/ajeetraina/n8n-model-runner/blob/main/README.md#step-3-project-setup).
+This uses your Dockerfile.n8n and compose.yaml to start:
+
+✅ PostgreSQL database
+✅ n8n with Docker CLI installed
+✅ Redis (optional)
+✅ n8n worker (optional)
+
+### Step 4. Start MCP HTTP Bridge (Host)
+
+In a separate terminal, you need to manually start the bridge:
+
+```
+cd n8n-model-runner
+
+# Start the bridge (this must run on HOST, not in container)
+node mcp-http-bridge.js
+```
 
 ### Step 1: Import the Workflows
 
