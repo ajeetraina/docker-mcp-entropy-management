@@ -33,7 +33,7 @@ You now have a complete **AI-Powered Entropy Management System** prototype with 
 
 ### 1. Docker MCP Toolkit (Host Level)
 
-- Runs as Docker Desktop extension
+- Runs as Docker Desktop feature
 - Manages containerized MCP servers (GitHub, Kubernetes, etc.)
 - Provides docker mcp CLI commands
 - You verified this works: docker mcp tools call get_me ✅
