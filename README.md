@@ -180,7 +180,13 @@ curl -X POST "http://localhost:5678/webhook/build-business-os" \
 
 ![image](https://github.com/user-attachments/assets/ecd9d998-1c50-4f86-b59a-ba008cf78328)
 
+### Create AI Business OS
 
+![image](https://github.com/user-attachments/assets/12810700-ac5e-489b-a3eb-f5ff86c3a69f)
+
+### AI response
+
+![image](https://github.com/user-attachments/assets/e38595a8-aaaa-4f7a-a694-78ff4b365b37)
 
 
 
