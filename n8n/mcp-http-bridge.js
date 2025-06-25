@@ -1,4 +1,4 @@
-// mcp-http-bridge.js - Fixed version
+// mcp-http-bridge.js - Fixed parameter formatting
 const express = require('express');
 const { spawn } = require('child_process');
 const app = express();
@@ -11,10 +11,15 @@ function callMCPTool(toolName, params) {
   return new Promise((resolve, reject) => {
     const args = ['mcp', 'tools', 'call', toolName];
     
-    // Add parameters in the correct format: key="value"
+    // Add parameters in the correct format: key=value (no quotes for simple values)
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== '') {
-        args.push(`${key}="${value}"`);
+        // Only add quotes if the value contains spaces or special characters
+        if (typeof value === 'string' && (value.includes(' ') || value.includes('\n') || value.includes('"'))) {
+          args.push(`${key}="${value}"`);
+        } else {
+          args.push(`${key}=${value}`);
+        }
       }
     });
 
