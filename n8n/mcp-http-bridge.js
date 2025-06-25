@@ -1,8 +1,3 @@
-# Remove the incorrect file and create the proper one
-rm mcp-http-bridge.js
-
-# Create the bridge with the actual code
-cat > mcp-http-bridge.js << 'EOF'
 // mcp-http-bridge.js - Bridge HTTP to MCP Protocol
 const express = require('express');
 const { spawn } = require('child_process');
@@ -16,11 +11,14 @@ function callMCPTool(toolName, params) {
   return new Promise((resolve, reject) => {
     const args = ['mcp', 'tools', 'call', toolName];
     
-    // Add parameters as arguments
+    // Add parameters in the correct format: key="value"
     Object.entries(params).forEach(([key, value]) => {
-      args.push(`--${key}`);
-      args.push(value);
+      if (value !== undefined && value !== null) {
+        args.push(`${key}="${value}"`);
+      }
     });
+
+    console.log('Executing:', 'docker', args.join(' '));
 
     const process = spawn('docker', args, { stdio: ['pipe', 'pipe', 'pipe'] });
     
@@ -115,4 +113,3 @@ app.listen(port, '0.0.0.0', () => {
   console.log(`  GET  /test`);
   console.log(`  GET  /health`);
 });
-EOF
