@@ -168,7 +168,21 @@ curl -X POST "http://localhost:5678/webhook/build-business-os" \
 
 ### Result:
 
-![image](https://github.com/user-attachments/assets/6cf690e6-0809-4cc3-8ef5-83c8b94e0bc1)
+### Webhook:
+
+![image](https://github.com/user-attachments/assets/7c1c9546-e11f-42a6-8542-deb8456f9483)
+
+### Prepare AI Analytics
+
+![image](https://github.com/user-attachments/assets/eeba2452-f62a-4d1d-b97a-268b9b6aa21e)
+
+### AI Business Analytics
+
+![image](https://github.com/user-attachments/assets/ecd9d998-1c50-4f86-b59a-ba008cf78328)
+
+
+
+
 
 
 ```
