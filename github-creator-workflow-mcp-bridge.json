@@ -1,5 +1,5 @@
 {
-  "name": "GitHub Business OS Creator (HTTP Bridge - MCP Integration)",
+  "name": "GitHub Business OS Creator (MCP Bridge - Ready to Import)",
   "nodes": [
     {
       "parameters": {
@@ -46,46 +46,21 @@
     },
     {
       "parameters": {
+        "method": "POST",
         "url": "http://host.docker.internal:3001/tools/create_or_update_file",
-        "authentication": "genericCredentialType",
-        "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
+        "headers": {
+          "Content-Type": "application/json"
         },
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "owner",
-              "value": "={{ $('⚙️ Prepare File Deployment').item.json.github_owner }}"
-            },
-            {
-              "name": "repo", 
-              "value": "={{ $('⚙️ Prepare File Deployment').item.json.repository_name }}"
-            },
-            {
-              "name": "path",
-              "value": "={{ $('⚙️ Prepare File Deployment').item.json.main_readme.path }}"
-            },
-            {
-              "name": "content",
-              "value": "={{ Buffer.from($('⚙️ Prepare File Deployment').item.json.main_readme.content).toString('base64') }}"
-            },
-            {
-              "name": "message",
-              "value": "Update: Business Operating System structure"
-            },
-            {
-              "name": "branch",
-              "value": "main"
-            }
-          ]
+        "contentType": "json",
+        "body": {
+          "owner": "={{ $('⚙️ Prepare File Deployment').item.json.github_owner }}",
+          "repo": "={{ $('⚙️ Prepare File Deployment').item.json.repository_name }}",
+          "path": "={{ $('⚙️ Prepare File Deployment').item.json.main_readme.path }}",
+          "content": "={{ Buffer.from($('⚙️ Prepare File Deployment').item.json.main_readme.content).toString('base64') }}",
+          "message": "Update: Business Operating System structure",
+          "branch": "main"
         },
         "options": {}
       },
@@ -115,46 +90,21 @@
     },
     {
       "parameters": {
+        "method": "POST",
         "url": "http://host.docker.internal:3001/tools/create_or_update_file",
-        "authentication": "genericCredentialType", 
-        "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
+        "headers": {
+          "Content-Type": "application/json"
         },
         "sendBody": true,
-        "bodyParameters": {
-          "parameters": [
-            {
-              "name": "owner",
-              "value": "={{ $('⚙️ Prepare File Deployment').item.json.github_owner }}"
-            },
-            {
-              "name": "repo",
-              "value": "={{ $('⚙️ Prepare File Deployment').item.json.repository_name }}"
-            },
-            {
-              "name": "path",
-              "value": "={{ $json.readme.path }}"
-            },
-            {
-              "name": "content", 
-              "value": "={{ Buffer.from($json.readme.content).toString('base64') }}"
-            },
-            {
-              "name": "message",
-              "value": "Add domain structure: {{ $json.domain_name }}"
-            },
-            {
-              "name": "branch",
-              "value": "main"
-            }
-          ]
+        "contentType": "json",
+        "body": {
+          "owner": "={{ $('⚙️ Prepare File Deployment').item.json.github_owner }}",
+          "repo": "={{ $('⚙️ Prepare File Deployment').item.json.repository_name }}",
+          "path": "={{ $json.readme.path }}",
+          "content": "={{ Buffer.from($json.readme.content).toString('base64') }}",
+          "message": "Add domain structure: {{ $json.domain_name }}",
+          "branch": "main"
         },
         "options": {}
       },
@@ -169,15 +119,11 @@
     },
     {
       "parameters": {
+        "method": "GET",
         "url": "http://host.docker.internal:3001/tools/get_me",
         "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Content-Type",
-              "value": "application/json"
-            }
-          ]
+        "headers": {
+          "Content-Type": "application/json"
         },
         "options": {}
       },
