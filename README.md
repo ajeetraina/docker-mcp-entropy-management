@@ -28,6 +28,28 @@ You now have a complete **AI-Powered Entropy Management System** prototype with 
 [GitHub Repository] ← [File Creation via MCP]
 ```
 
+
+## Phase 1: System Setup & Components
+
+### 1. Docker MCP Toolkit (Host Level)
+
+- Runs as Docker Desktop extension
+- Manages containerized MCP servers (GitHub, Kubernetes, etc.)
+- Provides docker mcp CLI commands
+- You verified this works: docker mcp tools call get_me ✅
+
+### 2. n8n Workflow Engine (Containerized)
+
+- Runs in Docker container
+- Handles business logic and workflow automation
+- Cannot directly access docker mcp commands (they're host-level only)
+
+### 3. HTTP Bridge (Host Level)
+
+- Simple Node.js service on port 3001
+- Translates HTTP requests → docker mcp commands
+- You verified this works: Bridge successfully called MCP ✅
+
 ### Step 0. Bring up n8n + Model Runner + MCP Toolkit
 
 ```
