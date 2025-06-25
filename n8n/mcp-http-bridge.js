@@ -1,4 +1,4 @@
-// mcp-http-bridge.js - Bridge HTTP to MCP Protocol
+// mcp-http-bridge.js - Fixed version
 const express = require('express');
 const { spawn } = require('child_process');
 const app = express();
@@ -13,12 +13,13 @@ function callMCPTool(toolName, params) {
     
     // Add parameters in the correct format: key="value"
     Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
+      if (value !== undefined && value !== null && value !== '') {
         args.push(`${key}="${value}"`);
       }
     });
 
     console.log('Executing:', 'docker', args.join(' '));
+    console.log('Parameters received:', params);
 
     const process = spawn('docker', args, { stdio: ['pipe', 'pipe', 'pipe'] });
     
@@ -54,9 +55,21 @@ function callMCPTool(toolName, params) {
 // GitHub file creation endpoint
 app.post('/tools/create_or_update_file', async (req, res) => {
   try {
+    console.log('Raw request body:', JSON.stringify(req.body, null, 2));
+    
     const { owner, repo, path, content, message, branch = 'main' } = req.body;
     
-    console.log(`Creating/updating file: ${owner}/${repo}/${path}`);
+    // Debug logging
+    console.log(`Parameters: owner=${owner}, repo=${repo}, path=${path}, branch=${branch}`);
+    console.log(`Message: ${message}`);
+    console.log(`Content length: ${content ? content.length : 'undefined'}`);
+    
+    if (!owner || !repo || !path || !content || !message) {
+      return res.status(400).json({
+        error: 'Missing required parameters',
+        received: { owner, repo, path, content: content ? 'present' : 'missing', message }
+      });
+    }
     
     const result = await callMCPTool('create_or_update_file', {
       owner,
