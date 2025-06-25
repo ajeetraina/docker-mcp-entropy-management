@@ -35,7 +35,7 @@ Ensure that you follow [these steps beforehand](https://github.com/ajeetraina/n8
 **Import all three workflows into your n8n dashboard:**
 
 1. **Business OS Builder**
-   - Copy JSON from `ai-business-os-workflow` artifact
+   - Copy JSON from `ai-business-os-workflow` artifact - [link](https://raw.githubusercontent.com/ajeetraina/docker-mcp-entropy-management/refs/heads/main/ai-business-os-workflow.json)
    - Import to n8n → Save → Activate
    - **Webhook URL**: `http://localhost:5678/webhook/build-business-os`
   
