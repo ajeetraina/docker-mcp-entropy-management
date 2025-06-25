@@ -1,5 +1,5 @@
 {
-  "name": "GitHub Creator - Final Working Version",
+  "name": "GitHub Creator - FIXED POST Methods",
   "nodes": [
     {
       "parameters": {
@@ -12,7 +12,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [200, 400],
-      "webhookId": "github-structure-final"
+      "webhookId": "github-structure-fixed-post"
     },
     {
       "parameters": {
@@ -26,6 +26,7 @@
     },
     {
       "parameters": {
+        "httpMethod": "POST",
         "url": "http://host.docker.internal:3001/tools/create_or_update_file",
         "sendHeaders": true,
         "headerParameters": {
@@ -63,6 +64,7 @@
     },
     {
       "parameters": {
+        "httpMethod": "POST",
         "url": "http://host.docker.internal:3001/tools/create_or_update_file",
         "sendHeaders": true,
         "headerParameters": {
@@ -191,5 +193,5 @@
   },
   "active": true,
   "settings": {},
-  "versionId": "final-working-v1"
+  "versionId": "fixed-post-methods-v1"
 }
