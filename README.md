@@ -20,6 +20,14 @@ You now have a complete **AI-Powered Entropy Management System** prototype with 
 
 ## 🚀 Implementation Steps
 
+```
+[Claude Desktop] ↔ [Docker MCP Toolkit] ↔ [MCP Servers (GitHub, etc.)]
+                                ↕
+[n8n Workflows] ↔ [HTTP Bridge] ↔ [Docker MCP Commands]
+                                ↕
+[GitHub Repository] ← [File Creation via MCP]
+```
+
 ### Step 0. Bring up n8n + Model Runner + MCP Toolkit
 
 ```
