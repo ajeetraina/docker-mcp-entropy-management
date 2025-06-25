@@ -197,7 +197,7 @@ curl -X POST "http://localhost:5678/webhook/build-business-os" \
 
 
 2. **GitHub Structure Creator**
-   - Copy JSON from `github-creator-workflow-norepo-fileonly.json` artifact - [link](https://raw.githubusercontent.com/ajeetraina/docker-mcp-entropy-management/refs/heads/main/github-creator-workflow-norepo-fileonly.json)
+   - Copy JSON from `github-creator-workflow-norepo-fileonly.json` artifact - [link](https://raw.githubusercontent.com/ajeetraina/docker-mcp-entropy-management/refs/heads/main/github-creator-workflow-mcp-bridge.json)
    - Import to n8n → Save → Activate
    - **Webhook URL**: `http://localhost:5678/webhook/create-github-structure`
   
