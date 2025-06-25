@@ -74,11 +74,25 @@ curl -X POST "http://localhost:5678/webhook/build-business-os" \
 
 
 2. **GitHub Structure Creator**
-   - Copy JSON from `github_structure_creator` artifact
+   - Copy JSON from `github-creator-workflow-norepo-fileonly.json` artifact - [link](https://raw.githubusercontent.com/ajeetraina/docker-mcp-entropy-management/refs/heads/main/github-creator-workflow-norepo-fileonly.json)
    - Import to n8n → Save → Activate
    - **Webhook URL**: `http://localhost:5678/webhook/create-github-structure`
+  
+```
+curl -X POST http://localhost:5678/webhook-test/create-github-structure \
+  -H "Content-Type: application/json" \
+  -d '{
+    "company_name": "Test Entropy Corp",
+    "repository_name": "docker-mcp-entropy-management",
+    "github_owner": "ajeetraina",
+    "domains": [{"number": 0, "name": "Strategy & Vision", "content": ["Testing"]}]
+  }'
+```
 
-3. **Daily Entropy Management**
+![image](https://github.com/user-attachments/assets/4157e0b5-d5fc-4d26-b7b8-eb395cc394df)
+
+
+4. **Daily Entropy Management**
    - Copy JSON from `daily_entropy_management` artifact
    - Import to n8n → Save → Activate
    - **Webhook URL**: `http://localhost:5678/webhook/process-entropy`
