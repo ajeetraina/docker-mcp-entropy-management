@@ -202,14 +202,23 @@ curl -X POST "http://localhost:5678/webhook/build-business-os" \
    - **Webhook URL**: `http://localhost:5678/webhook/create-github-structure`
   
 ```
-curl -X POST http://localhost:5678/webhook-test/create-github-structure \
-  -H "Content-Type: application/json" \
-  -d '{
-    "company_name": "Test Entropy Corp",
-    "repository_name": "docker-mcp-entropy-management",
-    "github_owner": "ajeetraina",
-    "domains": [{"number": 0, "name": "Strategy & Vision", "content": ["Testing"]}]
-  }'
+curl -X POST "http://localhost:5678/webhook/create-github-structure" \
+-H "Content-Type: application/json" \
+-d '{
+"company_name": "Tech Startup Inc",
+"github_owner": "ajeetraina",
+"repository_name": "tech-startup-inc-business-os",
+"domains": [
+    {
+        "number": 0,
+        "name": "Foundation",
+        "content": ["Vision, Mission, Values"],
+        "subdomains": [
+            {"number": "0.1", "name": "Vision Mission Values"}
+        ]
+    }
+]
+}'
 ```
 
 ![image](https://github.com/user-attachments/assets/4157e0b5-d5fc-4d26-b7b8-eb395cc394df)
