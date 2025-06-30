@@ -2,7 +2,7 @@
 
 ## Overview
 
-You now have a complete **AI-Powered Entropy Management System** prototype with three core workflows:
+This repository implement **AI-Powered Entropy Management System** prototype with three core workflows:
 
 1. **Business OS Builder** - Transforms business documents into systematic 0-9 structure
 2. **GitHub Structure Creator** - Deploys organized repositories with templates
@@ -10,10 +10,10 @@ You now have a complete **AI-Powered Entropy Management System** prototype with 
 
 ## Prerequisites 
 
-- ✅ Docker Desktop 4.42.0+ with MCP support
-- ✅ n8n workflow engine running (localhost:5678)
-- ✅ Model Runner with AI models loaded (model-runner.docker.internal:12434)
-- ✅ Docker MCP Toolkit configured
+-  Docker Desktop 4.42.0+ with MCP support
+-  n8n workflow engine running (localhost:5678)
+-  Model Runner with AI models loaded (model-runner.docker.internal:12434)
+-  Docker MCP Toolkit configured
 
 ## Getting Started
 
