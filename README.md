@@ -36,7 +36,6 @@ This repository implement **AI-Powered Entropy Management System** prototype wit
 - Runs as Docker Desktop feature
 - Manages containerized MCP servers (GitHub, Kubernetes, etc.)
 - Provides docker mcp CLI commands
-- You verified this works: docker mcp tools call get_me ✅
 
 ### 2. n8n Workflow Engine (Containerized)
 
@@ -48,7 +47,6 @@ This repository implement **AI-Powered Entropy Management System** prototype wit
 
 - Simple Node.js service on port 3001
 - Translates HTTP requests → docker mcp commands
-- You verified this works: Bridge successfully called MCP ✅
 
 ## Step 0. Bring up n8n using Docker Compose
 
